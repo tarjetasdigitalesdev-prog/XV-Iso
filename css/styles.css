@@ -28,27 +28,43 @@ html {
 
 body {
   margin: 0;
-  background:
-    radial-gradient(ellipse 900px 600px at 20% -10%, rgba(217, 220, 225, 0.14), transparent 60%),
-    radial-gradient(ellipse 800px 700px at 100% 10%, rgba(167, 172, 180, 0.12), transparent 55%),
-    linear-gradient(180deg, var(--night) 0%, var(--night-soft) 45%, var(--night-deep) 100%);
-  background-attachment: fixed;
+  background: linear-gradient(180deg, var(--night) 0%, var(--night-soft) 45%, var(--night-deep) 100%);
   color: var(--white);
   font-family: var(--font-body);
   font-weight: 300;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
+  -webkit-text-size-adjust: 100%;
   position: relative;
+  /* iOS momentum scrolling */
+  -webkit-overflow-scrolling: touch;
 }
 
-/* Polvo de purpurina fijo detrás de todo el contenido */
+/* Background gradients as fixed pseudo-element (background-attachment:fixed breaks on iOS) */
+body > .bg-fixed-layer {
+  display: none;
+}
 body::before {
   content: "";
   position: fixed;
   top: 0;
   left: 0;
-  right: 0;
-  bottom: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -2;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 900px 600px at 20% -10%, rgba(217, 220, 225, 0.14), transparent 60%),
+    radial-gradient(ellipse 800px 700px at 100% 10%, rgba(167, 172, 180, 0.12), transparent 55%);
+}
+
+/* Polvo de purpurina fijo detrás de todo el contenido */
+.glitter-layer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   z-index: -1;
   pointer-events: none;
   background-image:
@@ -75,6 +91,19 @@ body::before {
 
 a {
   color: inherit;
+}
+
+/* iOS-safe scroll locking */
+html.scroll-locked,
+html.scroll-locked body {
+  overflow: hidden;
+  height: 100%;
+}
+html.scroll-locked body {
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
 }
 
 img {
@@ -586,6 +615,7 @@ button {
   align-items: center;
   justify-content: flex-start;
   padding-top: 12vh;
+  padding-top: 12dvh;
   text-align: center;
   padding-left: 1.5rem;
   padding-right: 1.5rem;
@@ -594,6 +624,8 @@ button {
     linear-gradient(180deg, var(--night) 0%, var(--night-deep) 100%);
   overflow: hidden;
   transition: opacity 1s ease, visibility 1s ease;
+  /* iOS safe area */
+  padding-bottom: env(safe-area-inset-bottom, 0);
 }
 
 .cover.is-hidden {
@@ -677,8 +709,11 @@ button {
   left: 0;
   right: 0;
   height: 34vh;
+  height: 34dvh;
   z-index: 2;
+  -webkit-perspective: 220px;
   perspective: 220px;
+  -webkit-perspective-origin: 50% 0%;
   perspective-origin: 50% 0%;
   overflow: hidden;
   pointer-events: none;
@@ -801,6 +836,8 @@ button {
   cursor: pointer;
   user-select: none;
   -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  -webkit-appearance: none;
 }
 
 .pass-btn:hover,
@@ -853,6 +890,7 @@ button {
   position: relative;
   width: 100vw;
   height: 90vh;
+  height: 90dvh;
   margin-left: calc(50% - 50vw);
   overflow: hidden;
   background: linear-gradient(180deg, var(--night) 0%, var(--night-deep) 100%);
@@ -1281,20 +1319,6 @@ button {
   position: relative;
   max-width: 280px;
   margin: 1rem auto 0;
-  transform-origin: top center;
-  animation: pass-swing 5.5s ease-in-out infinite;
-}
-
-@keyframes pass-swing {
-
-  0%,
-  100% {
-    transform: rotate(-2.2deg);
-  }
-
-  50% {
-    transform: rotate(2.2deg);
-  }
 }
 
 .pass__strap {
@@ -1634,6 +1658,9 @@ button {
   text-transform: uppercase;
   text-decoration: none;
   transition: all 0.3s ease;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  -webkit-appearance: none;
 }
 
 .ghost-btn {
@@ -1767,13 +1794,12 @@ button {
    ============================================================ */
 
 /* — Capa iridiscente sutil sobre todo el body — */
-body::after {
-  content: "";
+.iridescent-overlay {
   position: fixed;
   top: 0;
   left: 0;
-  right: 0;
-  bottom: 0;
+  width: 100%;
+  height: 100%;
   z-index: 0;
   pointer-events: none;
   background:
@@ -2087,6 +2113,140 @@ body::after {
 }
 
 /* ============================================================
+   RESPONSIVE — small screens (iPhone SE, small Android)
+   ============================================================ */
+@media (max-width: 359px) {
+  .cover {
+    padding-top: 8vh;
+    padding-top: 8dvh;
+  }
+
+  .cover__title {
+    font-size: 1.8rem;
+  }
+
+  .cover__numeral {
+    font-size: 3.2rem;
+  }
+
+  .cover__name {
+    font-size: 2.6rem;
+  }
+
+  .pass-btn {
+    padding: 0.75rem 1.6rem;
+    font-size: 0.68rem;
+  }
+
+  .discoball-wrap {
+    width: 90px;
+    height: 110px;
+  }
+
+  .discoball {
+    width: 70px;
+    height: 70px;
+  }
+
+  .hero-full {
+    height: 75vh;
+    height: 75dvh;
+  }
+
+  .editorial-numeral {
+    font-size: 3.5rem;
+  }
+
+  .signature {
+    font-size: 2.4rem;
+  }
+
+  .led-screen {
+    padding: 1.2rem 1.4rem 1rem;
+  }
+
+  .countdown__unit {
+    min-width: 58px;
+    padding: 0.7rem 0.2rem;
+  }
+
+  .countdown__num {
+    font-size: 1.5rem;
+  }
+
+  .pass {
+    max-width: 240px;
+  }
+
+  .pass__card {
+    padding: 1rem 0.9rem 1.2rem;
+  }
+
+  .pass__entry-label {
+    font-size: 1rem;
+  }
+
+  .pass__entry-time,
+  .pass__entry-place {
+    font-size: 0.9rem;
+  }
+
+  .swatch {
+    width: 62px;
+  }
+
+  .swatch::before {
+    width: 36px;
+    height: 36px;
+  }
+
+  .section__title {
+    font-size: 1.5rem;
+  }
+
+  .solid-btn {
+    padding: 0.85rem 1.8rem;
+    font-size: 0.7rem;
+  }
+}
+
+/* Standard mobile adjustments (375px - 414px) */
+@media (max-width: 414px) {
+  .hero-full__caption {
+    bottom: 5%;
+  }
+
+  .cam-overlay__frame {
+    top: 10px;
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+  }
+
+  .cam-overlay__rec {
+    top: 18px;
+    left: 18px;
+    font-size: 0.65rem;
+  }
+
+  .cam-overlay__iso {
+    top: 18px;
+    right: 18px;
+    font-size: 0.6rem;
+  }
+
+  .cam-overlay__timecode {
+    bottom: 18px;
+    left: 18px;
+    font-size: 0.65rem;
+  }
+
+  .gift-card {
+    max-width: 100%;
+  }
+}
+
+/* ============================================================
    RESPONSIVE — desktop / tablet upscale
    ============================================================ */
 @media (min-width: 600px) {
@@ -2100,5 +2260,39 @@ body::after {
 
   .pass {
     max-width: 320px;
+  }
+}
+
+/* ============================================================
+   iOS SAFE AREA
+   ============================================================ */
+@supports (padding: env(safe-area-inset-bottom)) {
+  .footer {
+    padding-bottom: calc(4rem + env(safe-area-inset-bottom));
+  }
+
+  .cover {
+    padding-top: calc(12dvh + env(safe-area-inset-top, 0px));
+  }
+}
+
+/* ============================================================
+   REDUCE PARTICLE COUNT ON LOW-POWER DEVICES
+   ============================================================ */
+@media (max-width: 768px) {
+  .flash-field span:nth-child(n+8) {
+    display: none;
+  }
+
+  .iridescent-field .sparkle:nth-child(n+16) {
+    display: none;
+  }
+
+  .sparkle-field .glint:nth-child(n+20) {
+    display: none;
+  }
+
+  .discoball-rays span:nth-child(n+7) {
+    display: none;
   }
 }

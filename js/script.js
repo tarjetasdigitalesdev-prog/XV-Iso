@@ -5,10 +5,20 @@ const cover = document.getElementById('cover');
 const openBtn = document.getElementById('openBtn');
 const bgMusic = document.getElementById('bgMusic');
 
+// iOS-safe scroll locking (direct style.overflow breaks on iOS Safari)
+function lockScroll() {
+  document.body.classList.add('scroll-locked');
+  document.documentElement.classList.add('scroll-locked');
+}
+function unlockScroll() {
+  document.body.classList.remove('scroll-locked');
+  document.documentElement.classList.remove('scroll-locked');
+}
+
 if (openBtn && cover) {
   openBtn.addEventListener('click', () => {
     cover.classList.add('is-hidden');
-    document.body.style.overflow = 'auto';
+    unlockScroll();
     if (bgMusic) {
       bgMusic.volume = 0.5;
       bgMusic.play().catch(() => { /* el navegador puede bloquear autoplay sin gesto previo */ });
@@ -17,8 +27,13 @@ if (openBtn && cover) {
       cover.style.display = 'none';
     }, 1000);
   });
-  document.body.style.overflow = 'hidden';
+  lockScroll();
 }
+
+// ============================================================
+// MOBILE PERFORMANCE — reducir partículas en dispositivos móviles
+// ============================================================
+const isMobile = window.matchMedia('(max-width: 768px)').matches;
 
 // ============================================================
 // TIMECODE DE CÁMARA (HUD del hero)
@@ -103,11 +118,11 @@ document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 // ============================================================
 const flashField = document.getElementById('flashField');
 if (flashField) {
-  const FLASH_COUNT = 12;
+  const FLASH_COUNT = isMobile ? 6 : 12;
   for (let i = 0; i < FLASH_COUNT; i++) {
     const span = document.createElement('span');
-    span.style.left = (Math.random() * 100) + 'vw';
-    span.style.top = (Math.random() * 100) + 'vh';
+    span.style.left = (Math.random() * 100) + '%';
+    span.style.top = (Math.random() * 100) + '%';
     span.style.animationDelay = (Math.random() * 6) + 's';
     span.style.animationDuration = (3.5 + Math.random() * 3) + 's';
     flashField.appendChild(span);
@@ -119,7 +134,7 @@ if (flashField) {
 // ============================================================
 const iridescentField = document.getElementById('iridescentField');
 if (iridescentField) {
-  const SPARKLE_COUNT = 30;
+  const SPARKLE_COUNT = isMobile ? 14 : 30;
   const sparkleColors = ['lavender', 'rose', 'ice', 'mint', 'silver', 'gold'];
 
   for (let i = 0; i < SPARKLE_COUNT; i++) {
@@ -129,8 +144,8 @@ if (iridescentField) {
     const color = sparkleColors[Math.floor(Math.random() * sparkleColors.length)];
     sparkle.classList.add(`sparkle--${color}`);
 
-    sparkle.style.left = (Math.random() * 100) + 'vw';
-    sparkle.style.top = (Math.random() * 100) + 'vh';
+    sparkle.style.left = (Math.random() * 100) + '%';
+    sparkle.style.top = (Math.random() * 100) + '%';
 
     const size = (2 + Math.random() * 4).toFixed(1);
     sparkle.style.setProperty('--sz', size + 'px');
@@ -149,7 +164,7 @@ if (iridescentField) {
 // ============================================================
 const sparkleField = document.getElementById('sparkleField');
 if (sparkleField) {
-  const GLINT_COUNT = 40;
+  const GLINT_COUNT = isMobile ? 18 : 40;
   const glintVariants = ['', 'glint--soft', 'glint--warm', 'glint--cool'];
 
   for (let i = 0; i < GLINT_COUNT; i++) {
@@ -159,8 +174,8 @@ if (sparkleField) {
     const variant = glintVariants[Math.floor(Math.random() * glintVariants.length)];
     if (variant) glint.classList.add(variant);
 
-    glint.style.left = (Math.random() * 100) + 'vw';
-    glint.style.top = (Math.random() * 100) + 'vh';
+    glint.style.left = (Math.random() * 100) + '%';
+    glint.style.top = (Math.random() * 100) + '%';
 
     const size = (2 + Math.random() * 3).toFixed(1);
     glint.style.setProperty('--glint-sz', size + 'px');
