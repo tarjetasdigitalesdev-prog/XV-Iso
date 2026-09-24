@@ -1529,7 +1529,7 @@ button {
       transparent 60%);
   background-size: 260% 260%;
   mix-blend-mode: screen;
-  animation: holo-sweep 4.5s ease-in-out infinite;
+  animation: none;
 }
 
 @keyframes holo-sweep {
@@ -1569,6 +1569,7 @@ button {
 }
 
 .swatch {
+  position: relative;
   width: 76px;
   text-align: center;
 }
@@ -1592,6 +1593,23 @@ button {
 
 .swatch--locked {
   opacity: 0.4;
+}
+
+.swatch--locked::after {
+  content: "✕";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 42px;
+  height: 42px;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: rgba(0, 0, 0, 0.7);
+  pointer-events: none;
 }
 
 .swatch--glow {
