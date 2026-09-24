@@ -16,7 +16,8 @@ function unlockScroll() {
 }
 
 const musicToggle = document.getElementById('musicToggle');
-const musicIcon = document.getElementById('musicIcon');
+const musicIconPause = document.getElementById('musicIconPause');
+const musicIconPlay = document.getElementById('musicIconPlay');
 
 if (openBtn && cover) {
   openBtn.addEventListener('click', () => {
@@ -43,12 +44,14 @@ if (musicToggle && bgMusic) {
     if (bgMusic.paused) {
       bgMusic.play().catch(() => { });
       musicToggle.classList.remove('is-muted');
-      musicIcon.textContent = '⏸';
+      if (musicIconPause) musicIconPause.classList.remove('music-toggle__icon--hidden');
+      if (musicIconPlay) musicIconPlay.classList.add('music-toggle__icon--hidden');
       musicToggle.setAttribute('aria-label', 'Pausar música');
     } else {
       bgMusic.pause();
       musicToggle.classList.add('is-muted');
-      musicIcon.textContent = '▶';
+      if (musicIconPause) musicIconPause.classList.add('music-toggle__icon--hidden');
+      if (musicIconPlay) musicIconPlay.classList.remove('music-toggle__icon--hidden');
       musicToggle.setAttribute('aria-label', 'Reanudar música');
     }
   });
