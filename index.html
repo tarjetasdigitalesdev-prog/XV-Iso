@@ -42,9 +42,9 @@
         </div>
       </div>
       <p class="tag">Backstage</p>
-      <h1 class="cover__title">VIP ACCESS</h1>
+      <h1 class="cover__title">MIS</h1>
       <p class="cover__numeral">XV</p>
-      <p class="cover__name">ISO</p>
+      <p class="cover__name">ISO SARACHO SARAVIA</p>
       <p class="tag">XV Años · 31.10.2026</p>
       <button class="pass-btn" id="openBtn">
         <span>Entrar al Backstage</span>
@@ -100,8 +100,8 @@
     <div class="divider"></div>
 
     <section class="note">
-      <p class="note__text" style="max-width: 100%; text-wrap: balance; font-size: clamp(0.85rem, 4.5vw, 1.02rem);">hay
-        momentos que quiero que queden para siempre y quiero compartir uno muy especial con&nbsp;vos</p>
+      <p class="note__text" style="max-width: 100%; text-wrap: balance; font-size: clamp(0.85rem, 4.5vw, 1.02rem);">Hay
+        momentos que quedan para siempre y quiero compartir uno muy especial con&nbsp;vos</p>
       <p class="note__sign">— Iso</p>
     </section>
 
@@ -138,27 +138,24 @@
             <span class="pass__vip">VIP</span>
           </div>
 
-          <div class="pass__photo">
-            <img src="img/all-access.jpg" alt="Iso" onerror="this.parentElement.classList.add('is-empty')">
+          <div class="pass__photo pass-discoball-container">
+            <div class="pass-discoball-glow"></div>
+            <div class="pass-discoball">
+              <div class="pass-discoball__tiles"></div>
+              <div class="pass-discoball__shine"></div>
+            </div>
           </div>
 
-          <p class="pass__name">ISO SARACHO</p>
+          <p class="pass__name">ISO</p>
           <p class="pass__role">XV Backstage Pass</p>
 
           <div class="pass__line"></div>
 
-          <div class="pass__entry">
-            <span class="pass__entry-label">Ceremonia</span>
-            <span class="pass__entry-time">12:00 hs</span>
-            <span class="pass__entry-place">Catedral Ntra. Sra. de la Encarnación</span>
-            <span class="pass__entry-addr">24 de Septiembre 420</span>
-            <a class="pass__link" href="https://maps.app.goo.gl/Mg6gjjjnyQBWxK1R8" target="_blank" rel="noopener">Cómo
-              llegar →</a>
-          </div>
 
           <div class="pass__entry">
             <span class="pass__entry-label">Fiesta</span>
-            <span class="pass__entry-time">21:30 hs</span>
+            <span class="pass__entry-time">31 de Octubre a las 21:30 hs</span>
+            <span class="pass__entry-place">Club Tucumán Rugby</span>
             <span class="pass__entry-place">Salas y Valdez 1500</span>
             <span class="pass__entry-addr">Yerba Buena</span>
             <a class="pass__link" href="https://maps.app.goo.gl/Sw3774rArjkvHBeK8" target="_blank" rel="noopener">Cómo
@@ -200,7 +197,8 @@
     <section class="section">
       <p class="tag">Obsequios</p>
       <h3 class="section__title">VIP Gifts</h3>
-      <p class="note__small">Tu presencia es el mejor regalo. Si querés colaborar con un obsequio:</p>
+      <p class="note__small">Tu regalo es tu presencia y todas las ganas de divertirte pero si además querés hacerme
+        otro regalito podes hacerlo a través de:</p>
       <div class="gift-card">
         <div class="gift-card__row"><span>Plataforma</span><span>Mercado Pago</span></div>
         <div class="gift-card__row"><span>Alias</span><span id="aliasText">ISOSARACHO</span></div>
@@ -215,17 +213,19 @@
     <section class="section rsvp">
       <h3 class="section__title">Confirmá tu lugar</h3>
       <p class="note__small">Por favor confirmar asistencia con Nombre Completo y DNI</p>
-      <a class="solid-btn"
-        href="#"
-        target="_blank" rel="noopener">Confirmar Asistencia</a>
+      <a class="solid-btn" href="#" target="_blank" rel="noopener">Confirmar Asistencia</a>
     </section>
 
     <footer class="footer">
       <p class="footer__quote">Te espero para celebrar juntos esta noche tan especial</p>
-      <p class="footer__sign">Isolina Saracho · 2026</p>
+      <p class="footer__sign">Isolina Saracho Saravia · 2026</p>
     </footer>
 
   </main>
+
+  <button class="music-toggle" id="musicToggle" aria-label="Pausar música">
+    <span class="music-toggle__icon" id="musicIcon">⏸</span>
+  </button>
 
   <audio id="bgMusic" loop preload="none">
     <source src="audio/backstage.mp3" type="audio/mpeg">

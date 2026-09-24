@@ -41,9 +41,10 @@ body {
 }
 
 /* Background gradients as fixed pseudo-element (background-attachment:fixed breaks on iOS) */
-body > .bg-fixed-layer {
+body>.bg-fixed-layer {
   display: none;
 }
+
 body::before {
   content: "";
   position: fixed;
@@ -99,6 +100,7 @@ html.scroll-locked body {
   overflow: hidden;
   height: 100%;
 }
+
 html.scroll-locked body {
   position: fixed;
   width: 100%;
@@ -1364,6 +1366,7 @@ button {
   box-shadow: 0 30px 60px -25px rgba(0, 0, 0, 0.8);
   position: relative;
   overflow: hidden;
+  min-height: 480px;
 }
 
 .pass__top {
@@ -1395,9 +1398,9 @@ button {
   height: 88px;
   margin: 0 auto 0.9rem;
   border-radius: 50%;
-  border: 2px solid var(--steel-light);
-  overflow: hidden;
-  background: linear-gradient(160deg, var(--night-soft), var(--night-deep));
+  border: none;
+  overflow: visible;
+  background: none;
   position: relative;
 }
 
@@ -1423,6 +1426,198 @@ button {
 
 .pass__photo.is-empty img {
   display: none;
+}
+
+/* ============================================================
+   DISCO BALL — mini versión para el All Access Pass
+   ============================================================ */
+.pass-discoball-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent !important;
+  border-color: rgba(217, 220, 225, 0.25) !important;
+  overflow: visible !important;
+  width: 100px !important;
+  height: 100px !important;
+  position: relative;
+}
+
+/* Resplandor ambiental */
+.pass-discoball-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 140px;
+  height: 140px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background:
+    radial-gradient(circle,
+      rgba(255, 255, 255, 0.18) 0%,
+      rgba(217, 220, 225, 0.2) 20%,
+      rgba(190, 170, 255, 0.08) 45%,
+      transparent 65%);
+  z-index: 0;
+  animation: pass-disco-glow 3.6s ease-in-out infinite;
+  pointer-events: none;
+}
+
+/* La bola de disco */
+.pass-discoball {
+  width: 78px;
+  height: 78px;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 30% 22%, #ffffff 0%, rgba(255, 255, 255, 0.8) 8%, transparent 30%),
+    radial-gradient(circle at 68% 72%, rgba(255, 255, 255, 0.3) 0%, transparent 20%),
+    radial-gradient(circle at 32% 26%, #f0f0f5 0%, #d4d7de 18%, #adb2bc 38%, #8a8f9a 58%, #6b7080 80%, #4a4e58 100%);
+  box-shadow:
+    0 0 24px 4px rgba(217, 220, 225, 0.5),
+    0 0 50px 10px rgba(217, 220, 225, 0.22),
+    0 0 80px 18px rgba(200, 205, 215, 0.1),
+    inset 0 -8px 16px rgba(0, 0, 0, 0.35),
+    inset 0 6px 10px rgba(255, 255, 255, 0.2);
+  position: relative;
+  overflow: hidden;
+  z-index: 2;
+  animation: pass-disco-spin-body 5.5s ease-in-out infinite;
+}
+
+/* Facetas de espejo — grilla fina */
+.pass-discoball__tiles {
+  position: absolute;
+  top: -10%;
+  left: -10%;
+  right: -10%;
+  bottom: -10%;
+  background:
+    repeating-linear-gradient(0deg,
+      rgba(255, 255, 255, 0.15) 0px,
+      rgba(255, 255, 255, 0.15) 1px,
+      transparent 1px,
+      transparent 6px),
+    repeating-linear-gradient(90deg,
+      rgba(255, 255, 255, 0.12) 0px,
+      rgba(255, 255, 255, 0.12) 1px,
+      transparent 1px,
+      transparent 6px);
+  animation: discoball-spin 8s linear infinite;
+  z-index: 1;
+}
+
+/* Segunda capa de facetas desfasada */
+.pass-discoball__tiles::before {
+  content: "";
+  position: absolute;
+  top: -5%;
+  left: -5%;
+  right: -5%;
+  bottom: -5%;
+  background:
+    repeating-linear-gradient(0deg,
+      rgba(0, 0, 0, 0.12) 0px,
+      rgba(0, 0, 0, 0.12) 1px,
+      transparent 1px,
+      transparent 9px),
+    repeating-linear-gradient(90deg,
+      rgba(0, 0, 0, 0.1) 0px,
+      rgba(0, 0, 0, 0.1) 1px,
+      transparent 1px,
+      transparent 9px);
+  animation: discoball-spin-reverse 12s linear infinite;
+}
+
+/* Capa iridiscente de reflejo de color */
+.pass-discoball__tiles::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background:
+    conic-gradient(from 0deg,
+      rgba(190, 170, 255, 0.1) 0deg,
+      rgba(170, 220, 255, 0.12) 60deg,
+      rgba(255, 200, 220, 0.1) 120deg,
+      rgba(170, 255, 220, 0.08) 180deg,
+      rgba(255, 230, 180, 0.1) 240deg,
+      rgba(190, 170, 255, 0.1) 360deg);
+  mix-blend-mode: screen;
+  animation: discoball-spin 6s linear infinite;
+}
+
+/* Reflejo especular principal */
+.pass-discoball__shine {
+  position: absolute;
+  top: 14%;
+  left: 20%;
+  width: 32%;
+  height: 18%;
+  background: radial-gradient(ellipse,
+      rgba(255, 255, 255, 0.9) 0%,
+      rgba(255, 255, 255, 0.4) 40%,
+      transparent 70%);
+  border-radius: 50%;
+  filter: blur(2px);
+  z-index: 3;
+}
+
+/* Segundo reflejo especular */
+.pass-discoball::before {
+  content: "";
+  position: absolute;
+  bottom: 22%;
+  right: 18%;
+  width: 18%;
+  height: 10%;
+  background: radial-gradient(ellipse,
+      rgba(255, 255, 255, 0.5) 0%,
+      transparent 70%);
+  border-radius: 50%;
+  filter: blur(3px);
+  z-index: 3;
+}
+
+/* Borde de contorno sutil */
+.pass-discoball::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.12);
+  z-index: 4;
+}
+
+/* Animaciones de la disco ball del pass */
+@keyframes pass-disco-spin-body {
+
+  0%,
+  100% {
+    transform: rotate(-2deg) translateX(-1px);
+  }
+
+  50% {
+    transform: rotate(2deg) translateX(1px);
+  }
+}
+
+@keyframes pass-disco-glow {
+
+  0%,
+  100% {
+    opacity: 0.5;
+    transform: translate(-50%, -50%) scale(0.92);
+  }
+
+  50% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.08);
+  }
 }
 
 .pass__name {
@@ -1462,6 +1657,7 @@ button {
   font-style: italic;
   color: var(--silver);
   font-size: 1.2rem;
+  text-align: center;
 }
 
 .pass__entry-time {
@@ -2312,5 +2508,73 @@ button {
 
   .discoball-rays span:nth-child(n+7) {
     display: none;
+  }
+}
+
+/* ============================================================
+   BOTÓN MÚSICA — fijo abajo a la derecha
+   ============================================================ */
+.music-toggle {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 200;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  border: 1px solid rgba(217, 220, 225, 0.25);
+  background: rgba(28, 26, 34, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: var(--silver);
+  cursor: pointer;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease, background 0.3s ease, border-color 0.3s ease;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  padding-bottom: env(safe-area-inset-bottom, 0);
+}
+
+.music-toggle.is-visible {
+  display: flex;
+}
+
+.music-toggle:hover {
+  transform: scale(1.1);
+  border-color: rgba(217, 220, 225, 0.5);
+  background: rgba(28, 26, 34, 0.9);
+}
+
+.music-toggle:active {
+  transform: scale(0.95);
+}
+
+.music-toggle__icon {
+  font-size: 1.2rem;
+  line-height: 1;
+  animation: music-pulse 1.5s ease-in-out infinite;
+}
+
+.music-toggle.is-muted .music-toggle__icon {
+  animation: none;
+  opacity: 0.4;
+}
+
+.music-toggle.is-muted {
+  border-color: rgba(217, 220, 225, 0.1);
+}
+
+@keyframes music-pulse {
+
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  50% {
+    transform: scale(1.15);
+    opacity: 0.8;
   }
 }

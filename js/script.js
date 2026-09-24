@@ -15,6 +15,9 @@ function unlockScroll() {
   document.documentElement.classList.remove('scroll-locked');
 }
 
+const musicToggle = document.getElementById('musicToggle');
+const musicIcon = document.getElementById('musicIcon');
+
 if (openBtn && cover) {
   openBtn.addEventListener('click', () => {
     cover.classList.add('is-hidden');
@@ -23,11 +26,32 @@ if (openBtn && cover) {
       bgMusic.volume = 0.5;
       bgMusic.play().catch(() => { /* el navegador puede bloquear autoplay sin gesto previo */ });
     }
+    // Mostrar botón de música
+    if (musicToggle) {
+      musicToggle.classList.add('is-visible');
+    }
     setTimeout(() => {
       cover.style.display = 'none';
     }, 1000);
   });
   lockScroll();
+}
+
+// Botón para pausar / reanudar música
+if (musicToggle && bgMusic) {
+  musicToggle.addEventListener('click', () => {
+    if (bgMusic.paused) {
+      bgMusic.play().catch(() => { });
+      musicToggle.classList.remove('is-muted');
+      musicIcon.textContent = '⏸';
+      musicToggle.setAttribute('aria-label', 'Pausar música');
+    } else {
+      bgMusic.pause();
+      musicToggle.classList.add('is-muted');
+      musicIcon.textContent = '▶';
+      musicToggle.setAttribute('aria-label', 'Reanudar música');
+    }
+  });
 }
 
 // ============================================================
@@ -87,7 +111,7 @@ if (copyBtn && aliasText) {
   copyBtn.addEventListener('click', () => {
     navigator.clipboard.writeText(aliasText.textContent.trim()).then(() => {
       const original = copyBtn.textContent;
-      copyBtn.textContent = 'Alias copiado';
+      copyBtn.textContent = 'Alias copiado!✅';
       copyBtn.classList.add('is-copied');
       setTimeout(() => {
         copyBtn.textContent = original;
