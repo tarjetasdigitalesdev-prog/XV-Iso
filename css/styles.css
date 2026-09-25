@@ -2,6 +2,7 @@
    TOKENS — Disco Plateado
    ============================================================ */
 :root {
+  color-scheme: dark;
   --silver: #FF00FF;
   --silver-deep: #C71585;
   --chrome: #FF1493;
@@ -2057,17 +2058,24 @@ button {
 
 /* — Brillo iridiscente sutil en títulos de sección — */
 .section__title {
-  background-image: linear-gradient(90deg,
-      var(--white) 0%,
-      rgba(220, 200, 255, 1) 30%,
-      rgba(200, 235, 255, 1) 50%,
-      rgba(255, 210, 230, 1) 70%,
-      var(--white) 100%);
-  background-size: 250% 100%;
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: title-shimmer 6s ease-in-out infinite;
+  color: var(--white);
+  /* color de respaldo si el navegador no soporta el recorte de texto */
+}
+
+@supports ((-webkit-background-clip: text) or (background-clip: text)) {
+  .section__title {
+    background-image: linear-gradient(90deg,
+        var(--white) 0%,
+        rgba(220, 200, 255, 1) 30%,
+        rgba(200, 235, 255, 1) 50%,
+        rgba(255, 210, 230, 1) 70%,
+        var(--white) 100%);
+    background-size: 250% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: title-shimmer 6s ease-in-out infinite;
+  }
 }
 
 @keyframes title-shimmer {
@@ -2154,17 +2162,24 @@ button {
     left: -100%;
   }
 
-  100% {
-    left: 150%;
-  }
+  color: #E8E8EA;
+  /* color de respaldo si el navegador no soporta el recorte de texto */
 }
 
-/* — Shimmer suave en el footer quote — */
-.footer__quote {
-  background-image: linear-gradient(90deg,
-      #E8E8EA 0%,
-      rgba(255, 255, 255, 0.9) 25%,
-      #E8E8EA 50%,
+@supports ((-webkit-background-clip: text) or (background-clip: text)) {
+  .footer__quote {
+    background-image: linear-gradient(90deg,
+        #E8E8EA 0%,
+        rgba(255, 255, 255, 0.9) 25%,
+        #E8E8EA 50%,
+        rgba(217, 220, 225, 0.8) 75%,
+        #E8E8EA 100%);
+    background-size: 300% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: title-shimmer 8s ease-in-out infinite;
+  }
       rgba(217, 220, 225, 0.8) 75%,
       #E8E8EA 100%);
   background-size: 300% 100%;
