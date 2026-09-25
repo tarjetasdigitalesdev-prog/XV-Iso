@@ -1856,6 +1856,23 @@ button {
   color: var(--silver);
 }
 
+.social-link {
+  display: inline-block;
+  padding: 0.7rem 1.4rem;
+  border: 1px solid #E8E8EA;
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: #E8E8EA;
+  transition: all 0.3s ease;
+}
+
+.social-link:hover {
+  background: #E8E8EA;
+  color: var(--night);
+}
+
 /* ============================================================
    FOOTER
    ============================================================ */
