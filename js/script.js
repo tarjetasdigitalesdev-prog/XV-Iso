@@ -16,8 +16,6 @@ function unlockScroll() {
 }
 
 const musicToggle = document.getElementById('musicToggle');
-const musicIconPause = document.getElementById('musicIconPause');
-const musicIconPlay = document.getElementById('musicIconPlay');
 
 if (openBtn && cover) {
   openBtn.addEventListener('click', () => {
@@ -25,11 +23,17 @@ if (openBtn && cover) {
     unlockScroll();
     if (bgMusic) {
       bgMusic.volume = 0.5;
-      bgMusic.play().catch(() => { /* el navegador puede bloquear autoplay sin gesto previo */ });
-    }
-    // Mostrar botón de música
-    if (musicToggle) {
-      musicToggle.classList.add('is-visible');
+      bgMusic.play().then(() => {
+        // Mostrar botón de música una vez que empiece a reproducir
+        if (musicToggle) {
+          musicToggle.classList.add('is-visible');
+        }
+      }).catch(() => {
+        // Si el navegador bloquea, mostrar el botón en estado "play" para que el usuario lo active
+        if (musicToggle) {
+          musicToggle.classList.add('is-visible', 'is-paused');
+        }
+      });
     }
     setTimeout(() => {
       cover.style.display = 'none';
@@ -38,21 +42,19 @@ if (openBtn && cover) {
   lockScroll();
 }
 
-// Botón para pausar / reanudar música
+// ============================================================
+// BOTÓN PLAY / PAUSE
+// ============================================================
 if (musicToggle && bgMusic) {
   musicToggle.addEventListener('click', () => {
     if (bgMusic.paused) {
-      bgMusic.play().catch(() => { });
-      musicToggle.classList.remove('is-muted');
-      if (musicIconPause) musicIconPause.classList.remove('music-toggle__icon--hidden');
-      if (musicIconPlay) musicIconPlay.classList.add('music-toggle__icon--hidden');
+      bgMusic.play().catch(() => {});
+      musicToggle.classList.remove('is-paused');
       musicToggle.setAttribute('aria-label', 'Pausar música');
     } else {
       bgMusic.pause();
-      musicToggle.classList.add('is-muted');
-      if (musicIconPause) musicIconPause.classList.add('music-toggle__icon--hidden');
-      if (musicIconPlay) musicIconPlay.classList.remove('music-toggle__icon--hidden');
-      musicToggle.setAttribute('aria-label', 'Reanudar música');
+      musicToggle.classList.add('is-paused');
+      musicToggle.setAttribute('aria-label', 'Reproducir música');
     }
   });
 }
@@ -215,4 +217,3 @@ if (sparkleField) {
     sparkleField.appendChild(glint);
   }
 }
-
